@@ -16,7 +16,6 @@ public class VssA3 {
      */
     public static void main(String[] args) {
         System.out.println("Hallo Timmy!");
-        System.out.println("");
     }
     
 }
