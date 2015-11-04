@@ -44,8 +44,7 @@ public class Table {
     public Place takePlace() throws Exception {
         availablePlaces.acquire();
         for(Place place : places) {
-            if(place.isEmpty()) {
-                place.take();
+            if(place.takeIfEmpty()) {
                 return place;
             }
         }

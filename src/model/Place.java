@@ -15,17 +15,29 @@ import vss.a3.VssA3;
 public class Place {
     private boolean inUse = false;
     private final int index;
+    private final Semaphore takePlace = new Semaphore(1, true);
     
     public Place(int index) {
         this.index = index;
     }
     
-    public boolean isEmpty() {
+    public boolean isEmpty(){
         return !inUse;
     }
     
     public void take() {
         inUse = true;
+    }
+    
+    public boolean takeIfEmpty() throws InterruptedException {
+        takePlace.acquire();
+        if(isEmpty()) {
+            inUse = true;
+            takePlace.release();
+            return true;
+        }
+        takePlace.release();
+        return false;
     }
     
     public void leave() {

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script>
+            
+            $( document ).ready(function() {
+                var example = [
+                            {
+                                "places":10,
+                                "philosophs":3
+                            },
+                            {
+                                "id":1,
+                                "takes":{
+                                        "place":1
+                                        },
+                                "status":"sleeping"
+                            }
+                        ];
+                        
+                for (i = 0; i < example[0].places; i++) { 
+                    $("#table").append('<div class="place" id="place' + i + '">place' + i + '</div>');
+                    $("#table").append('<div class="fork" id="fork' + i + '">fork' + i + '</div>');
+                }
+                for (i = 0; i < example[0].philosophs; i++) { 
+                    $("#meditating-area").append('<div class="place" id="philosoph' + i + '">philosoph' + i + '</div>');
+                }
+                $.each(example, function (index, philosoph) {
+                    if(philosoph.hasOwnProperty('id')) {
+                        // takes
+                        if(philosoph.hasOwnProperty('takes')) {
+                            
+                            if(philosoph.hasOwnProperty('fork')) {
+
+                            } else if (philosoph.hasOwnProperty('place')) {
+                                console.log(philosoph.takes.place.id);
+                                $('#place' + philosoph.takes.place.id).append($('#philosoph' + philosoph.id));
+                            }
+                        }
+                        //status
+                        
+                    }
+                });
+                
+            });
+            
+            
+            
+            
+        </script>
+    </head>
+    <body>
+            <div id="table">
+                
+            </div>
+            <div id="meditating-area">
+                
+            </div>
+    </body>
+    
+</html>
+
+
