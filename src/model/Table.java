@@ -18,7 +18,6 @@ public class Table {
     
     private final List<Fork> forks = new ArrayList<>();
     private final List<Place> places = new ArrayList<>();
-    private final Semaphore availablePlaces = new Semaphore(VssA3.MAX_PLACES, true);
     private int wholeEatingCounter;
     
     public Table() {
@@ -40,16 +39,6 @@ public class Table {
         Fork fork = this.forks.get(index);
         fork.passBack();
     }
-    
-    /*public Place takePlace() throws Exception {
-        availablePlaces.acquire();
-        for(Place place : places) {
-            if(place.takeIfEmpty()) {
-                return place;
-            }
-        }
-        throw new Exception("No place found.");
-    }*/
     
     public void leavePlace(int index) throws Exception {
         Place place = places.get(index);
