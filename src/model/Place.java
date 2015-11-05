@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.Semaphore;
 import vss.a3.VssA3;
 
@@ -15,7 +17,9 @@ import vss.a3.VssA3;
 public class Place {
     private boolean inUse = false;
     private final int index;
+    private int waitingTime;
     private final Semaphore takePlace = new Semaphore(1, true);
+    private final Queue<Philosoph> placeQueue = new LinkedList();
     
     public Place(int index) {
         this.index = index;
@@ -25,26 +29,33 @@ public class Place {
         return !inUse;
     }
     
-    public void take() {
-        inUse = true;
-    }
-    
-    public boolean takeIfEmpty() throws InterruptedException {
+    public void enqueue(Philosoph philosoph) throws Exception {
+        System.out.println(takePlace.getQueueLength());
         takePlace.acquire();
         if(isEmpty()) {
             inUse = true;
-            takePlace.release();
-            return true;
+            
+        } else {
+            throw new Exception("place is not empty");
         }
-        takePlace.release();
-        return false;
     }
     
-    public void leave() {
+    public void leave() throws Exception {
+        
         inUse = false;
+        takePlace.release();
     }
 
     int getIndex() {
         return index;
     }
+    
+    int getQueueSize() {
+        return this.takePlace.getQueueLength();
+    }
+
+    public int getWaitingTime() {
+        return waitingTime;
+    }
+
 }

@@ -40,21 +40,7 @@ public class Supervisor extends Thread {
                     philosoph.penalty();
                 }
             }
-            /*Philosoph max = philosophs.get(0);
-            Philosoph min = philosophs.get(0);
-            for(Philosoph philosoph: philosophs) {
-                if(philosoph.getEatingCounter() > max.getEatingCounter()) {
-                    max = philosoph;
-                }
-                if(philosoph.getEatingCounter() < min.getEatingCounter()) {
-                    min = philosoph;
-                }
-            }
-            System.out.println(philosophs);
-            if(max.getEatingCounter() > min.getEatingCounter() + 3) {
-                max.penalty();
-            }
-*/
+            
             try {
                 Thread.sleep(VssA3.SLEEPING_TIME_SUPERVISOR);
             } catch (InterruptedException ex) {

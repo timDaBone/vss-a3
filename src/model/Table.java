@@ -41,7 +41,7 @@ public class Table {
         fork.passBack();
     }
     
-    public Place takePlace() throws Exception {
+    /*public Place takePlace() throws Exception {
         availablePlaces.acquire();
         for(Place place : places) {
             if(place.takeIfEmpty()) {
@@ -49,15 +49,24 @@ public class Table {
             }
         }
         throw new Exception("No place found.");
-    }
+    }*/
     
-    public void leavePlace(int index) {
+    public void leavePlace(int index) throws Exception {
         Place place = places.get(index);
         place.leave();
         synchronized(this) {
             wholeEatingCounter++;
         }
-        availablePlaces.release();
+    }
+    
+    public List<Place> getPlaces() {
+        return places;
+    }
+    
+    
+
+    Place getPlace(int i) {
+       return this.places.get(i);
     }
     
 }

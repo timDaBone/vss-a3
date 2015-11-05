@@ -43,8 +43,9 @@ public class Philosoph extends Thread {
                         Thread.sleep(VssA3.PENALTY_TIME);
                         willBePunished = false;
                     }
-
-                    eating();
+                    Place place = enqueueToPlace();
+                    
+                    eating(place.getIndex());
                 }
                 sleeping();
             }
@@ -54,35 +55,31 @@ public class Philosoph extends Thread {
 
     }
 
-    private void eating() throws Exception {
+    public void eating(int placeIndex) throws Exception {
 
-        Place place = table.takePlace();
-
-        int placeIndex = place.getIndex();
-
-        VssA3.writeInGuiFile(this.philosophIndex, "place", placeIndex, "thinking");
-        //System.out.println(this + " took place " + placeIndex);
+        //VssA3.writeInGuiFile(this.philosophIndex, "place", placeIndex, "thinking");
+        System.out.println(this + " took place " + placeIndex);
 
         // Konvention: im Uhrzeigersinn -> größere Zahl ist links, kleinere Zahl ist rechts
         // Konvention: Plätze an geraden Indizes nehmen zuerst die linke Gabel, ungerade die rechte Gabel
         if (placeIndex % 2 == 0) {
             table.takeFork((placeIndex + 1) % VssA3.MAX_PLACES);
-            VssA3.writeInGuiFile(this.philosophIndex, "fork", (placeIndex + 1) % VssA3.MAX_PLACES, "thinking");
-            //System.out.println(this + " has fork " + (placeIndex + 1) % VssA3.MAX_PLACES);
+            //VssA3.writeInGuiFile(this.philosophIndex, "fork", (placeIndex + 1) % VssA3.MAX_PLACES, "thinking");
+            System.out.println(this + " has fork " + (placeIndex + 1) % VssA3.MAX_PLACES);
             table.takeFork(placeIndex);
-            VssA3.writeInGuiFile(this.philosophIndex, "fork", placeIndex, "thinking");
-            //System.out.println(this + " has fork " + placeIndex);
+            //VssA3.writeInGuiFile(this.philosophIndex, "fork", placeIndex, "thinking");
+            System.out.println(this + " has fork " + placeIndex);
         } else {
             table.takeFork(placeIndex);
-            VssA3.writeInGuiFile(this.philosophIndex, "fork", placeIndex, "thinking");
-            //System.out.println(this + " has fork " + placeIndex);
+            //VssA3.writeInGuiFile(this.philosophIndex, "fork", placeIndex, "thinking");
+            System.out.println(this + " has fork " + placeIndex);
             table.takeFork((placeIndex + 1) % VssA3.MAX_PLACES);
-            VssA3.writeInGuiFile(this.philosophIndex, "fork", (placeIndex + 1) % VssA3.MAX_PLACES, "thinking");
-            //System.out.println(this + " has fork " + (placeIndex + 1) % VssA3.MAX_PLACES);
+            //VssA3.writeInGuiFile(this.philosophIndex, "fork", (placeIndex + 1) % VssA3.MAX_PLACES, "thinking");
+            System.out.println(this + " has fork " + (placeIndex + 1) % VssA3.MAX_PLACES);
         }
         
-        VssA3.writeInGuiFile(this.philosophIndex, null, -1, "eating");
-        //System.out.println(this + " goes eating");
+        //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "eating");
+        System.out.println(this + " goes eating");
 
         // schbaggeddi  schbaggeddi  schbaggeddi mmmmmmhhhhhh  schbaggeddi mmmmmmhhhhhh schbaggeddi  
         // schbaggeddi mmmmmmhhhhhh schbaggeddi  schbaggeddi  schbaggeddi  schbaggeddi mmmmmmhhhhhh
@@ -90,11 +87,12 @@ public class Philosoph extends Thread {
 
         this.eatingCounter++;
 
+        System.out.println(this + " passes forks back");
         table.passBackFork(placeIndex);
         table.passBackFork((placeIndex + 1) % VssA3.MAX_PLACES);
 
-        VssA3.writeInGuiFile(this.philosophIndex, null, -1, "thinking");
-        //System.out.println(this + " goes thinking");
+        //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "thinking");
+        System.out.println(this + " goes thinking");
         table.leavePlace(placeIndex);
     }
 
@@ -103,8 +101,8 @@ public class Philosoph extends Thread {
     }
 
     private void sleeping() throws InterruptedException, IOException {
-        VssA3.writeInGuiFile(this.philosophIndex, null, -1, "sleeping");
-        //System.out.println(this + " goes sleeping");
+        //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "sleeping");
+        System.out.println(this + " goes sleeping");
         Thread.sleep(VssA3.SLEEPING_TIME);
     }
 
@@ -112,15 +110,30 @@ public class Philosoph extends Thread {
         return eatingCounter;
     }
 
-    public void penalty() throws IOException {
-        VssA3.writeInGuiFile(this.philosophIndex, null, -1, "punishing");
-        //System.out.println(this + " was punished!!!!!!!!!!! ");
+    public void penalty() {
+        //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "punishing");
+        System.out.println(this + " was punished!!!!!!!!!!! ");
         this.willBePunished = true;
     }
 
     @Override
     public String toString() {
-        return "Philosoph" + this.philosophIndex + "(" + eatingCounter + ")";
+        return "Philosoph-" + this.philosophIndex + " (" + eatingCounter + ")";
+    }
+
+    private Place enqueueToPlace() throws Exception {
+        
+        Place minPlace = table.getPlace(0);
+        
+        for(Place place : table.getPlaces()) {
+            if(place.getQueueSize() < minPlace.getQueueSize()) {
+                minPlace = place;
+            }
+        }
+        
+        minPlace.enqueue(this);
+        System.out.println(this + " is enqueued");
+        return minPlace;
     }
 
 }

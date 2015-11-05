@@ -11,35 +11,42 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script>
-            
-            $( document ).ready(function() {
+
+            $(document).ready(function () {
                 var example = [
-                            {
-                                "places":10,
-                                "philosophs":3
-                            },
-                            {
-                                "id":1,
-                                "takes":{
-                                        "place":1
-                                        },
-                                "status":"sleeping"
-                            }
-                        ];
-                        
-                for (i = 0; i < example[0].places; i++) { 
-                    $("#table").append('<div class="place" id="place' + i + '">place' + i + '</div>');
-                    $("#table").append('<div class="fork" id="fork' + i + '">fork' + i + '</div>');
+                    {
+                        "places": 10,
+                        "philosophs": 3
+                    },
+                    {
+                        "id": 1,
+                        "takes": {
+                            "place": 1
+                        },
+                        "status": "sleeping"
+                    }
+                ];
+
+                for (i = 0; i < example[0].places; i++) {
+                    $("#table").append('<div class="place" id="place' + i + '">P' + i + '</div>');
+                    $("#table").append('<div class="fork" id="fork' + i + '">F' + i + '</div>');
                 }
-                for (i = 0; i < example[0].philosophs; i++) { 
+
+                for (var i = 0; i < example[0].places; i++) {
+                    var place = document.getElementById("place" + i);
+                    var fork = document.getElementById("fork" + i);
+
+                }
+
+                for (i = 0; i < example[0].philosophs; i++) {
                     $("#meditating-area").append('<div class="place" id="philosoph' + i + '">philosoph' + i + '</div>');
                 }
                 $.each(example, function (index, philosoph) {
-                    if(philosoph.hasOwnProperty('id')) {
+                    if (philosoph.hasOwnProperty('id')) {
                         // takes
-                        if(philosoph.hasOwnProperty('takes')) {
-                            
-                            if(philosoph.hasOwnProperty('fork')) {
+                        if (philosoph.hasOwnProperty('takes')) {
+
+                            if (philosoph.hasOwnProperty('fork')) {
 
                             } else if (philosoph.hasOwnProperty('place')) {
                                 console.log(philosoph.takes.place.id);
@@ -47,26 +54,49 @@ and open the template in the editor.
                             }
                         }
                         //status
-                        
+
                     }
                 });
-                
+
             });
-            
-            
-            
-            
         </script>
+        <style>
+
+            #table {
+                background-color: brown;
+                width: 500px;
+                height: 500px;
+                border-radius: 300px;
+            }
+
+            .place {
+                position : relative;
+                width : 60px;
+                height : 60px;
+                background-color : green;
+                border-radius : 30px;
+                text-align : center;  
+            }
+            
+            .fork {
+                position : relative;
+                width : 20px;
+                height : 40px;
+                background-color : yellow;
+                text-align : center;  
+            }
+
+        </style>
     </head>
     <body>
-            <div id="table">
-                
-            </div>
-            <div id="meditating-area">
-                
-            </div>
+        <div id="table">
+
+        </div>
+        <div id="meditating-area">
+
+        </div>
     </body>
-    
+
 </html>
 
 
