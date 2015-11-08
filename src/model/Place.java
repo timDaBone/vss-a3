@@ -1,61 +1,82 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.concurrent.Semaphore;
-import vss.a3.VssA3;
 
 /**
+ * A place where a philosoph can eat.
  *
- * @author Tim
+ * @author Andi Buchmann
+ * @author Tim Böhnel
  */
 public class Place {
+
     private boolean inUse = false;
     private final int index;
-    private int waitingTime;
     private final Semaphore takePlace = new Semaphore(1, true);
-    private final Queue<Philosoph> placeQueue = new LinkedList();
-    
+
+    /**
+     * Constructor for a place.
+     *
+     * @param index
+     */
     public Place(int index) {
         this.index = index;
     }
-    
-    public boolean isEmpty(){
+
+    /**
+     * Return true if empty.
+     *
+     * @return empty
+     */
+    public boolean isEmpty() {
         return !inUse;
     }
-    
+
+    /**
+     * Enqueues a philosoph into the queue for a place. The philosoph waits
+     * until the place is free.
+     *
+     * @param philosoph
+     * @throws Exception
+     */
     public void enqueue(Philosoph philosoph) throws Exception {
         System.out.println(takePlace.getQueueLength());
+
         takePlace.acquire();
-        if(isEmpty()) {
+        if (isEmpty()) {
             inUse = true;
-            
         } else {
             throw new Exception("place is not empty");
         }
     }
-    
+
+    /**
+     * Leave the place. (Should only be called by the Philosoph which sits on
+     * the place.
+     *
+     * @throws Exception
+     */
     public void leave() throws Exception {
-        
         inUse = false;
         takePlace.release();
     }
 
+    /**
+     * Get index of the place.
+     *
+     * @return index
+     */
     int getIndex() {
         return index;
     }
-    
-    int getQueueSize() {
-        return this.takePlace.getQueueLength();
-    }
 
-    public int getWaitingTime() {
-        return waitingTime;
+    /**
+     * Get the length of the queue.
+     *
+     * @return length
+     */
+    int getQueueLength() {
+        return this.takePlace.getQueueLength();
     }
 
 }

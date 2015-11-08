@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 import vss.a3.VssA3;
 
 /**
  *
- * @author Tim
+ * @author Andi Buchmann
+ * @author Tim Böhnel
  */
 public class Table {
     
@@ -20,6 +15,10 @@ public class Table {
     private final List<Place> places = new ArrayList<>();
     private int wholeEatingCounter;
     
+    /**
+     * Constructor for a Table.
+     * 
+     */
     public Table() {
         this.wholeEatingCounter = 0;
         for(int index = 0; index < VssA3.MAX_PLACES; index ++) {
@@ -29,17 +28,34 @@ public class Table {
             this.places.add(place);
         }
     }
-    
+   
+    /**
+     * Takes a the fork on the given index.
+     * 
+     * @param index
+     * @throws InterruptedException 
+     */
     public void takeFork(int index) throws InterruptedException {
         Fork fork = this.forks.get(index);
         fork.take();
     }
     
+    /**
+     * Passes the fork on the given index back.
+     * 
+     * @param index 
+     */
     public void passBackFork(int index) {
         Fork fork = this.forks.get(index);
         fork.passBack();
     }
     
+    /**
+     * Leaves the place on the given index.
+     * 
+     * @param index
+     * @throws Exception 
+     */
     public void leavePlace(int index) throws Exception {
         Place place = places.get(index);
         place.leave();
@@ -48,6 +64,11 @@ public class Table {
         }
     }
     
+    /**
+     * Returns all places.
+     * 
+     * @return 
+     */
     public List<Place> getPlaces() {
         return places;
     }

@@ -1,18 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import vss.a3.VssA3;
 
 /**
  *
- * @author Tim
+ * @author Andi Buchmann
+ * @author Tim Böhnel
  */
 public class Supervisor extends Thread { 
 
@@ -37,7 +31,7 @@ public class Supervisor extends Thread {
 
             for(Philosoph philosoph: philosophs) {
                 if(philosoph.getEatingCounter()-VssA3.MAXIMUM_EATING_DIFFERENCE_AVERAGE >= averageEatingCounter) {
-                    philosoph.penalty();
+                    philosoph.punish();
                 }
             }
             

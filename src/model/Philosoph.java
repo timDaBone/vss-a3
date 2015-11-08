@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.IOException;
@@ -10,7 +5,8 @@ import vss.a3.VssA3;
 
 /**
  *
- * @author Tim
+ * @author Andi Buchmann
+ * @author Tim Böhnel
  */
 public class Philosoph extends Thread {
 
@@ -21,6 +17,14 @@ public class Philosoph extends Thread {
     private int eatingCounter;
     private boolean willBePunished;
 
+    /**
+     * Constructor for a philosoph.
+     * 
+     * @param table
+     * @param eatingTime
+     * @param thinkingTime
+     * @param philosophIndex 
+     */
     public Philosoph(Table table, long eatingTime, long thinkingTime, int philosophIndex) {
         this.table = table;
         this.eatingTime = eatingTime;
@@ -55,6 +59,12 @@ public class Philosoph extends Thread {
 
     }
 
+    /**
+     * Start and end eating on a specific place.
+     * 
+     * @param placeIndex
+     * @throws Exception 
+     */
     public void eating(int placeIndex) throws Exception {
 
         //VssA3.writeInGuiFile(this.philosophIndex, "place", placeIndex, "thinking");
@@ -96,21 +106,39 @@ public class Philosoph extends Thread {
         table.leavePlace(placeIndex);
     }
 
+    /**
+     * Go thinking.
+     * 
+     * @throws InterruptedException 
+     */
     private void thinking() throws InterruptedException {
         Thread.sleep(this.thinkingTime);
     }
 
+    /**
+     * Go sleeping.
+     * 
+     * @throws InterruptedException
+     * @throws IOException 
+     */
     private void sleeping() throws InterruptedException, IOException {
         //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "sleeping");
         System.out.println(this + " goes sleeping");
         Thread.sleep(VssA3.SLEEPING_TIME);
     }
 
+    /**
+     * Return count of eating actions.
+     * 
+     */
     public int getEatingCounter() {
         return eatingCounter;
     }
 
-    public void penalty() {
+    /**
+     * Punish this philosoph.
+     */
+    public void punish() {
         //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "punishing");
         System.out.println(this + " was punished!!!!!!!!!!! ");
         this.willBePunished = true;
@@ -121,12 +149,18 @@ public class Philosoph extends Thread {
         return "Philosoph-" + this.philosophIndex + " (" + eatingCounter + ")";
     }
 
+    /**
+     * Enqueue this philosoph to the place with the smalles queue.
+     * 
+     * @return the place
+     * @throws Exception 
+     */
     private Place enqueueToPlace() throws Exception {
         
         Place minPlace = table.getPlace(0);
         
         for(Place place : table.getPlaces()) {
-            if(place.getQueueSize() < minPlace.getQueueSize()) {
+            if(place.getQueueLength() < minPlace.getQueueLength()) {
                 minPlace = place;
             }
         }
