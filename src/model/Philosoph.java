@@ -158,10 +158,13 @@ public class Philosoph extends Thread {
     private Place enqueueToPlace() throws Exception {
         
         Place minPlace = table.getPlace(0);
-        
+                    
         for(Place place : table.getPlaces()) {
+            if(place.tryEnqueue(this)) {
+                return place;
+            }
             if(place.getQueueLength() < minPlace.getQueueLength()) {
-                minPlace = place;
+                minPlace = place;   
             }
         }
         

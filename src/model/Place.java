@@ -1,6 +1,7 @@
 package model;
 
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A place where a philosoph can eat.
@@ -10,7 +11,7 @@ import java.util.concurrent.Semaphore;
  */
 public class Place {
 
-    private boolean inUse = false;
+    private boolean empty = true;
     private final int index;
     private final Semaphore takePlace = new Semaphore(1, true);
 
@@ -28,8 +29,20 @@ public class Place {
      *
      * @return empty
      */
-    public boolean isEmpty() {
-        return !inUse;
+    private boolean isEmpty() {
+        return empty;
+    }
+
+    public boolean tryEnqueue(Philosoph philosoph) throws Exception {
+        boolean tookPlace = takePlace.tryAcquire(0, TimeUnit.SECONDS);
+        if (tookPlace) {
+            if (isEmpty()) {
+                empty = false;
+            } else {
+                throw new Exception("place is not empty");
+            }
+        }
+        return tookPlace;
     }
 
     /**
@@ -41,10 +54,9 @@ public class Place {
      */
     public void enqueue(Philosoph philosoph) throws Exception {
         System.out.println(takePlace.getQueueLength());
-
         takePlace.acquire();
         if (isEmpty()) {
-            inUse = true;
+            empty = false;
         } else {
             throw new Exception("place is not empty");
         }
@@ -57,7 +69,7 @@ public class Place {
      * @throws Exception
      */
     public void leave() throws Exception {
-        inUse = false;
+        empty = true;
         takePlace.release();
     }
 
