@@ -67,28 +67,22 @@ public class Philosoph extends Thread {
      */
     public void eating(int placeIndex) throws Exception {
 
-        //VssA3.writeInGuiFile(this.philosophIndex, "place", placeIndex, "thinking");
         System.out.println(this + " took place " + placeIndex);
 
         // Konvention: im Uhrzeigersinn -> größere Zahl ist links, kleinere Zahl ist rechts
         // Konvention: Plätze an geraden Indizes nehmen zuerst die linke Gabel, ungerade die rechte Gabel
         if (placeIndex % 2 == 0) {
             table.takeFork((placeIndex + 1) % VssA3.MAX_PLACES);
-            //VssA3.writeInGuiFile(this.philosophIndex, "fork", (placeIndex + 1) % VssA3.MAX_PLACES, "thinking");
             System.out.println(this + " has fork " + (placeIndex + 1) % VssA3.MAX_PLACES);
             table.takeFork(placeIndex);
-            //VssA3.writeInGuiFile(this.philosophIndex, "fork", placeIndex, "thinking");
             System.out.println(this + " has fork " + placeIndex);
         } else {
             table.takeFork(placeIndex);
-            //VssA3.writeInGuiFile(this.philosophIndex, "fork", placeIndex, "thinking");
             System.out.println(this + " has fork " + placeIndex);
             table.takeFork((placeIndex + 1) % VssA3.MAX_PLACES);
-            //VssA3.writeInGuiFile(this.philosophIndex, "fork", (placeIndex + 1) % VssA3.MAX_PLACES, "thinking");
             System.out.println(this + " has fork " + (placeIndex + 1) % VssA3.MAX_PLACES);
         }
         
-        //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "eating");
         System.out.println(this + " goes eating");
 
         // schbaggeddi  schbaggeddi  schbaggeddi mmmmmmhhhhhh  schbaggeddi mmmmmmhhhhhh schbaggeddi  
@@ -101,7 +95,6 @@ public class Philosoph extends Thread {
         table.passBackFork(placeIndex);
         table.passBackFork((placeIndex + 1) % VssA3.MAX_PLACES);
 
-        //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "thinking");
         System.out.println(this + " goes thinking");
         table.leavePlace(placeIndex);
     }
@@ -122,7 +115,6 @@ public class Philosoph extends Thread {
      * @throws IOException 
      */
     private void sleeping() throws InterruptedException, IOException {
-        //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "sleeping");
         System.out.println(this + " goes sleeping");
         Thread.sleep(VssA3.SLEEPING_TIME);
     }
@@ -139,7 +131,6 @@ public class Philosoph extends Thread {
      * Punish this philosoph.
      */
     public void punish() {
-        //VssA3.writeInGuiFile(this.philosophIndex, null, -1, "punishing");
         System.out.println(this + " was punished!!!!!!!!!!! ");
         this.willBePunished = true;
     }
