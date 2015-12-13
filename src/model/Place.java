@@ -33,7 +33,7 @@ public class Place {
         return empty;
     }
 
-    public boolean tryEnqueue(Philosoph philosoph) throws Exception {
+    public boolean tryEnqueue() throws Exception {
         boolean tookPlace = takePlace.tryAcquire(0, TimeUnit.SECONDS);
         if (tookPlace) {
             if (isEmpty()) {
