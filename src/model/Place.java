@@ -53,7 +53,6 @@ public class Place {
      * @throws Exception
      */
     public void enqueue(Philosoph philosoph) throws Exception {
-        System.out.println(takePlace.getQueueLength());
         takePlace.acquire();
         if (isEmpty()) {
             empty = false;
